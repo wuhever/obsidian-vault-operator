@@ -7,7 +7,6 @@ engagement-type: consulting
 start-date: 2026-01-15
 primary-contact: Jane Doe
 contact-email: jane@acme.example
-contact-phone: 
 created: 2026-01-15
 ---
 
@@ -20,13 +19,13 @@ created: 2026-01-15
 **Industry / Domain:** Fictional software company
 **Status:** Active
 **Primary Contact:** Jane Doe (jane@acme.example)
-**Engagement:** Demo / example data for the obsidian-vault-operator template
+**Engagement:** Demo / example data
 
 ## Summary
 
 **Key focus:** Showing how an entity folder is structured.
 
-**Proposed approach:** Keep a README at the entity root, use subfolders for Research, Documents, and Workflow.
+**Proposed approach:** Keep a README at the entity root, use subfolders for Research, Documents, Workflow.
 
 **Expected outcome:** New users see the pattern and can replicate it for real entities.
 
@@ -40,4 +39,4 @@ created: 2026-01-15
 
 ## Notes
 
-This folder demonstrates the `02_Work/_Entity-Template/` pattern. Real entity folders would have more substance in `Research/`, `Documents/`, and `Workflow/`.
+This folder demonstrates the entity pattern. Real entity folders would have more substance in `Research/`, `Documents/`, and `Workflow/`.

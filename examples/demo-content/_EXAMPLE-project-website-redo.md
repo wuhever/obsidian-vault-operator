@@ -4,13 +4,12 @@ project: Website Redo
 client: AcmeCorp
 status: active
 deadline: 2026-03-15
-assignee: {{OWNER_NAME}}
 created: 2026-01-15
 ---
 
 # Project — Website Redo
 
-*This is a demo project — fictional. Delete this file when you're comfortable with the template, or keep it as a working example.*
+*Demo project — fictional. Delete this file when you're comfortable with the template.*
 
 ## Client / Owner
 
@@ -18,18 +17,16 @@ created: 2026-01-15
 
 ## Objective
 
-Demonstrate how a project brief looks in `03_Projects/`.
+Demonstrate how a project brief looks.
 
 ## Scope
 
 ### In Scope
-
 - Show `type: project` frontmatter
 - Show a simple deliverables checklist
 - Link back to the entity via wikilink
 
 ### Out of Scope
-
 - Any actual website work (this is a demo)
 
 ## Deliverables
@@ -48,4 +45,4 @@ Demonstrate how a project brief looks in `03_Projects/`.
 
 ## Notes
 
-Project briefs live in `03_Projects/`. Each has a status, deadline, and links to related entities/clients. When completed, update `status: completed` and consider archiving.
+Project briefs live in your projects folder. Each has a status, deadline, and links to related entities.

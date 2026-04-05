@@ -8,11 +8,11 @@ created: 2026-01-15
 
 # Idea — Weekly Review Automation
 
-*This is a demo idea — fictional. Delete this file when you're comfortable with the template, or keep it as a working example.*
+*Demo idea — fictional. Delete this file when you're comfortable with the template.*
 
 ## What
 
-Every Friday, have an AI agent scan the week's new notes, summarize key decisions, flag open action items, and generate a weekly review note in `{{OWNER_SLUG}}-space/Goals/`.
+Every Friday, have an AI agent scan the week's new notes, summarize key decisions, flag open action items, and generate a weekly review note.
 
 ## Why This Matters
 
@@ -30,12 +30,12 @@ Every Friday, have an AI agent scan the week's new notes, summarize key decision
 
 ## Effort Estimate
 
-**Complexity:** Low / Medium / High → Low
+**Complexity:** Low
 **Time to prototype:** 1-2 hours
 
 ## Next Steps
 
 - [ ] Define the output template
-- [ ] Write the review SOP in `06_Operations/`
+- [ ] Write the review SOP
 - [ ] Test on one week's data
-- [ ] Schedule it (cron or manual trigger)
+- [ ] Schedule it

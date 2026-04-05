@@ -62,15 +62,17 @@ The agent reads the prompt and takes over.
 
 ## Step 5 — Answer the interview questions
 
-The agent asks 5 short questions:
+The agent asks 7 short questions:
 
-| Question | Example answer |
-|---|---|
-| Owner name | `Sarah` |
-| Vault name / slug | `sarah-phd-vault` |
-| Vault purpose | `PhD research on marine biology` |
-| Vault path on disk | `C:\Users\sarah\Documents\sarah-phd-vault` |
-| Keep demo content? | `n` (or `y` to keep examples) |
+| # | Question | Example answer |
+|---|---|---|
+| 1 | Rename the `vault/` folder? | `phd-vault` (or Enter to keep `vault`) |
+| 2 | Owner name | `Sarah` |
+| 3 | Vault name / slug | `sarah-phd-vault` |
+| 4 | Vault purpose | `PhD research on marine biology` |
+| 5 | Vault type | `researcher` (or student/business/hobbyist-builder/personal/custom) |
+| 6 | Vault path on disk | `C:\Users\sarah\Documents\sarah-phd-vault` |
+| 7 | Install demo content? | `n` (or `y` to see the system in action) |
 
 ---
 
@@ -109,13 +111,15 @@ Keep / Edit / Reject? [K/E/R]
 
 The agent will:
 
-1. Rename folders per your approved scheme
-2. Replace all `{{PLACEHOLDER}}` tokens across the repo
-3. Rename `Owner-Space/` → `sarah-space/`
-4. Delete `_EXAMPLE-*` files (if you said no to demo content)
-5. Move files from `/_intake/` to their destinations, adding frontmatter
-6. Rename `/_intake/` → `/_intake-backup/`
-7. Write setup logs to `vault-operator/context/` and `vault-operator/changes/`
+1. Rename the `vault/` directory if you chose a new name
+2. Create the topical folders (01-08) based on your vault type
+3. Replace all `{{PLACEHOLDER}}` tokens across the repo
+4. Insert the generated scheme table into AGENTS.md, CLAUDE.md, README.md
+5. Rename `Owner-Space/` → `sarah-space/` (or whatever your owner slug is)
+6. Install demo content into the created folders (if you said yes)
+7. Move files from `/_intake/` to their destinations, adding frontmatter
+8. Rename `/_intake/` → `/_intake-backup/`
+9. Write setup logs to `vault-operator/context/` and `vault-operator/changes/`
 
 ---
 

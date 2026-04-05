@@ -18,8 +18,8 @@ Run this checklist periodically (weekly recommended, monthly minimum) to keep th
 ## 2. File Placement
 
 - [ ] No files at the vault root (except AGENTS.md, CLAUDE.md, README.md, .obsidianignore)
-- [ ] No misplaced files (e.g., research notes in `02_Work/`, client docs in `07_Ideas/`)
-- [ ] All entity folders in `02_Work/` have a README.md
+- [ ] No misplaced files (e.g., research notes outside their scope)
+- [ ] All entity folders have a README.md
 - [ ] `09_Reference/` contains only files placed by the owner (no agent-created files)
 
 ## 3. Inbox Triage
@@ -35,13 +35,13 @@ Run this checklist periodically (weekly recommended, monthly minimum) to keep th
 
 ## 5. Links and Orphans
 
-- [ ] No broken wikilinks (link targets that don't exist)
-- [ ] No orphaned files (files with zero incoming links)
+- [ ] No broken wikilinks
+- [ ] No orphaned files (zero incoming links)
 - [ ] Wikilinks used for internal links (not markdown-style links)
 
 ## 6. Templates
 
-- [ ] All 8 templates present in `_Templates/`
+- [ ] All templates present in `_Templates/`
 - [ ] Template frontmatter matches the canonical type/status lists
 - [ ] No regular notes accidentally saved in `_Templates/`
 
@@ -49,12 +49,12 @@ Run this checklist periodically (weekly recommended, monthly minimum) to keep th
 
 - [ ] All `.base` files open without errors
 - [ ] Base filters and formulas return expected results
-- [ ] No stale data (completed tasks still showing as active)
+- [ ] No stale data
 
 ## 8. Sync Health
 
-- [ ] Obsidian Sync shows green checkmark (all changes synced)
-- [ ] No lingering conflict files (`*sync-conflict*` or `*Conflicted copy*`)
+- [ ] Obsidian Sync shows green checkmark
+- [ ] No conflict files (`*sync-conflict*` or `*Conflicted copy*`)
 - [ ] `skills/` folder excluded from Sync
 - [ ] "Sync all other types" enabled (for .base/.canvas files)
 

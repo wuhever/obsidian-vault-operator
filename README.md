@@ -39,12 +39,13 @@ Run the setup wizard in setup/SETUP-PROMPT.md
 ```
 
 The agent will:
-1. Ask you 5 quick questions (your name, what this vault is for, its path on disk)
-2. If `/_intake/` has files, propose a folder scheme adapted to your content
-3. Replace placeholders across all files with your values
-4. Move your intake files into the right folders with frontmatter added
-5. Back up `/_intake/` to `/_intake-backup/` (delete it yourself when confident)
-6. Log everything to `vault-operator/context/` and `vault-operator/changes/`
+1. Ask you 7 quick questions (rename `vault/`? your name, vault purpose, vault type, path, demo content?)
+2. Create the topical folder scheme matching your vault type (student / researcher / business / hobbyist-builder / personal / custom)
+3. If `/_intake/` has files, refine the scheme around your content and route files into it
+4. Replace placeholders across all files with your values
+5. Add frontmatter to intake markdown files that lack it
+6. Back up `/_intake/` to `/_intake-backup/` (delete it yourself when confident)
+7. Log everything to `vault-operator/context/` and `vault-operator/changes/`
 
 ### 3. Open in Obsidian
 
@@ -65,13 +66,32 @@ You can also use Git for syncing the vault across machines — but if you have P
 ```
 obsidian-vault-operator/
 ├── _intake/             Drop your existing files here before /setup
-├── vault/               The Obsidian vault (open this in Obsidian)
-├── vault-operator/      Admin workspace (open this in your AI IDE)
-├── setup/               The setup wizard prompt and config
+├── vault/               Minimal Obsidian vault scaffold (wizard creates topical folders)
+│   ├── 00_Inbox/        Universal catch-all
+│   ├── 09_Reference/    Universal read-only archive
+│   ├── _Templates/      8 note templates
+│   ├── Owner-Space/     Owner's personal workspace
+│   ├── AGENTS.md        Generic agent rules
+│   ├── CLAUDE.md        Claude-specific rules
+│   └── README.md        Human guide
+├── vault-operator/      Admin workspace (open in your AI IDE)
+├── setup/               The setup wizard prompt + config
+├── examples/            Demo content + sample SOPs (optional)
 ├── docs/                Guides: setup, sync, customization, IDE compat, roadmap
 ├── LICENSE              MIT
 └── README.md            You are here
 ```
+
+### What the wizard creates based on your vault type
+
+The scaffold ships with **only universal essentials**. Your topical folders (01 through 08) are created during `/setup` based on the vault type you pick:
+
+- **Student** → `01_Identity`, `02_Courses`, `03_Projects`, `04_Study-Notes`, `05_Resources`, `06_Operations`, `07_Ideas`
+- **Researcher** → `01_Identity`, `02_Collaborators`, `03_Projects`, `04_Experiments`, `05_Papers`, `06_Operations`, `07_Ideas`, `08_Publishing`
+- **Business** → `01_Identity`, `02_Work`, `03_Projects`, `05_Strategy`, `06_Operations`, `07_Ideas`, `08_Publishing`
+- **Hobbyist/Builder** → `01_Identity`, `02_Tools`, `03_Projects`, `04_Experiments`, `05_Learning`, `06_Operations`, `07_Ideas`, `08_Publishing`
+- **Personal** → `01_Identity`, `02_People`, `03_Projects`, `05_Journal`, `06_Operations`, `07_Ideas`, `08_Reading`
+- **Custom** → agent designs from your description
 
 See [docs/SETUP.md](docs/SETUP.md) for a detailed walkthrough of the wizard, [docs/CUSTOMIZATION.md](docs/CUSTOMIZATION.md) for post-setup tweaks, and [docs/ROADMAP.md](docs/ROADMAP.md) for what's coming next (multi-owner setups, shell-script fallback, preset library).
 

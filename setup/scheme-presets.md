@@ -1,27 +1,41 @@
 # Scheme Presets
 
-Reference folder schemes the setup wizard uses to match against intake content. Each preset is a set of numbered folders with a purpose. The wizard picks one (or blends two) based on signals in `/_intake/`.
+Folder schemes the wizard **creates** during setup (not rename). The repo ships with only universal folders (Inbox, Reference, Templates, Owner-Space) — the wizard creates everything else based on the user's chosen vault type.
+
+Each preset is matched to the `{{VAULT_TYPE}}` picked during the interview. Intake content (if any) refines the scheme further.
 
 ---
 
-## Preset: `business` (default, v1 baseline)
+## Universal folders (every vault, every preset)
 
-**For:** solo consultants, agency operators, service businesses with clients
+These are created/preserved in every vault — the wizard does not touch them:
 
-**Signals to detect:** folders named like `clients/`, `proposals/`, `invoices/`, SOPs, retainer-shaped documents, contracts
+| Folder | Purpose |
+|---|---|
+| `00_Inbox/` | Catch-all, triaged periodically. `Daily/` subfolder for daily notes. |
+| `09_Reference/` | READ-ONLY archive |
+| `_Templates/` | Note templates |
+| `{owner-slug}-space/` | Owner's personal workspace |
 
-**Scheme:**
-```
-00_Inbox/           Catch-all for unsorted items
-01_Identity/        About, brand identity, personal positioning
-02_Work/            Clients / engagements (one folder per entity)
-03_Projects/        Active project work
-05_Strategy/        Growth plans, financial models
-06_Operations/      SOPs, processes, task board
-07_Ideas/           Brainstorms, experiments
-08_Publishing/      Social media, content, newsletter
-09_Reference/       Read-only archive
-```
+---
+
+## Preset: `student`
+
+**For:** undergraduates, graduate students, anyone doing course-based learning
+
+**Signals:** folders named `courses/`, `lectures/`, `assignments/`, textbook PDFs, syllabus docs, week-numbered files
+
+**Folders to create:**
+
+| Folder | Purpose |
+|---|---|
+| `01_Identity/` | About you, goals, study plan |
+| `02_Courses/` | One folder per course |
+| `03_Projects/` | Assignments, term papers, capstones |
+| `04_Study-Notes/` | Concept notes, flashcards, summaries |
+| `05_Resources/` | Textbooks, cheat sheets, shared readings |
+| `06_Operations/` | Study routines, exam prep SOPs |
+| `07_Ideas/` | Career ideas, side projects, research interests |
 
 ---
 
@@ -29,115 +43,134 @@ Reference folder schemes the setup wizard uses to match against intake content. 
 
 **For:** PhD students, academic researchers, lab scientists
 
-**Signals to detect:** `.pdf` files with year-stamped names (e.g., `smith-2024.pdf`), folders like `papers/`, `experiments/`, `thesis/`, BibTeX files, citation keys
+**Signals:** `.pdf` files with year-stamped names (`smith-2024.pdf`), folders like `papers/`, `experiments/`, `thesis/`, citation keys
 
-**Scheme:**
-```
-00_Inbox/
-01_Identity/        CV, bio, research goals
-02_Collaborators/   Advisor, committee, lab mates, co-authors
-03_Projects/        Thesis chapters, paper drafts, grants
-04_Experiments/     Lab notes, datasets, results  [new folder]
-05_Papers/          Reading library, annotated PDFs  [renamed from Strategy]
-06_Operations/      Writing workflow, submission SOPs
-07_Ideas/           Research questions, hypotheses
-08_Publishing/      Posters, talks, published work
-09_Reference/       Textbooks, canonical papers (read-only)
-```
+**Folders to create:**
+
+| Folder | Purpose |
+|---|---|
+| `01_Identity/` | CV, bio, research goals |
+| `02_Collaborators/` | Advisor, committee, lab mates, co-authors |
+| `03_Projects/` | Thesis chapters, paper drafts, grants |
+| `04_Experiments/` | Lab notes, datasets, results |
+| `05_Papers/` | Reading library, annotated PDFs |
+| `06_Operations/` | Writing workflow, submission SOPs |
+| `07_Ideas/` | Research questions, hypotheses |
+| `08_Publishing/` | Posters, talks, published work |
 
 ---
 
-## Preset: `student`
+## Preset: `business`
 
-**For:** undergraduates, course-based learning, certification study
+**For:** solo consultants, freelancers, agency operators, service businesses
 
-**Signals to detect:** folders named `courses/`, `lectures/`, `assignments/`, textbook PDFs, syllabus docs, weekly-numbered files
+**Signals:** folders like `clients/`, `proposals/`, `invoices/`, SOPs, contracts, retainer docs
 
-**Scheme:**
-```
-00_Inbox/
-01_Identity/        About you, goals, study plan
-02_Courses/         One folder per course  [renamed from Work]
-03_Projects/        Assignments, term papers, capstones
-04_Study-Notes/     Concept notes, flashcards, summaries  [new folder]
-05_Resources/       Textbooks, cheat sheets  [renamed from Strategy]
-06_Operations/      Study routines, exam prep SOPs
-07_Ideas/           Career ideas, side projects
-09_Reference/       Course readings archive
-```
+**Folders to create:**
+
+| Folder | Purpose |
+|---|---|
+| `01_Identity/` | About, brand, positioning (create `01_Identity/Brand/` if brand work applies) |
+| `02_Work/` | Clients / engagements (one folder per entity, use `_Entity-Template/`) |
+| `03_Projects/` | Active project work |
+| `05_Strategy/` | Growth plans, financial models |
+| `06_Operations/` | SOPs, processes, task board |
+| `07_Ideas/` | Brainstorms, experiments |
+| `08_Publishing/` | Social, content, newsletter |
+
+Also create: `02_Work/_Entity-Template/` with `Research/`, `Documents/`, `Workflow/` subfolders + README.
+
+---
+
+## Preset: `hobbyist-builder`
+
+**For:** web designers, app builders, makers, tinkerers, AI enthusiasts building projects
+
+**Signals:** folders like `projects/`, `builds/`, `experiments/`, code snippets, README files, tool lists, tutorials
+
+**Folders to create:**
+
+| Folder | Purpose |
+|---|---|
+| `01_Identity/` | About you, skills, portfolio notes |
+| `02_Tools/` | Stack references, cheat sheets, API notes |
+| `03_Projects/` | Active builds (one folder per project) |
+| `04_Experiments/` | Prototypes, hacks, half-ideas |
+| `05_Learning/` | Tutorials, courses, self-study notes |
+| `06_Operations/` | Build SOPs, deployment routines |
+| `07_Ideas/` | Project backlog, features-to-add |
+| `08_Publishing/` | Blog posts, demos, shared work |
 
 ---
 
 ## Preset: `personal`
 
-**For:** personal knowledge base, journaling, reading tracker, life planning
+**For:** personal knowledge base, journaling, reading, life admin
 
-**Signals to detect:** journal entries, reading lists, personal projects, blog drafts, no client/course/paper folders
+**Signals:** journal entries, reading lists, personal projects, no client/course/paper folders
 
-**Scheme:**
-```
-00_Inbox/
-01_Identity/        About, goals, values
-02_People/          Relationships, contacts  [renamed from Work]
-03_Projects/        Personal projects, goals in motion
-05_Journal/         Reflections, reviews  [renamed from Strategy]
-06_Operations/      Routines, habits, SOPs
-07_Ideas/           Thoughts, hunches
-08_Reading/         Books, articles, notes  [renamed from Publishing]
-09_Reference/       Saved content archive
-```
+**Folders to create:**
+
+| Folder | Purpose |
+|---|---|
+| `01_Identity/` | About, goals, values |
+| `02_People/` | Relationships, contacts |
+| `03_Projects/` | Personal projects, goals in motion |
+| `05_Journal/` | Reflections, reviews |
+| `06_Operations/` | Routines, habits, SOPs |
+| `07_Ideas/` | Thoughts, hunches, questions |
+| `08_Reading/` | Books, articles, notes |
 
 ---
 
-## Default (fallback, generic)
+## Preset: `custom`
 
-Used when intake is empty, when no preset matches clearly, or when user rejects the proposed preset.
+If the user picks `custom`, ask them to describe what kind of content they'll hold. Design a 5-8 folder scheme using numbered 01_ through 08_ naming. Present it, let them edit, then create.
 
-**Scheme:**
-```
-00_Inbox/
-01_Identity/
-02_Work/
-03_Projects/
-05_Strategy/
-06_Operations/
-07_Ideas/
-08_Publishing/
-09_Reference/
-```
+Example interactions:
+
+> User: "I want to track my fitness training, nutrition, and sleep."
+>
+> Wizard proposal:
+> ```
+> 01_Identity/     Your goals, measurements
+> 02_Training/     Programs, sessions, progress
+> 03_Nutrition/    Meal plans, recipes, tracking
+> 04_Sleep/        Sleep logs, routines
+> 06_Operations/   Routines, check-ins
+> 07_Ideas/        Things to try
+> ```
 
 ---
 
 ## Blending presets
 
-If intake matches two presets (e.g., a PhD student who also freelances), blend them:
-- Keep folders shared by both
-- Add distinctive folders from both (up to ~10 numbered folders total)
-- Present as a custom scheme — tell user which presets it drew from
+If intake matches two presets strongly (e.g., PhD student who also freelances), blend them — merge shared folders, add distinctive ones from both, stay under ~9 numbered folders total.
 
-Example blend (researcher + business):
+---
+
+## Fallback (user rejects scheme)
+
+Minimal generic scheme:
 ```
-00_Inbox/
-01_Identity/
-02_Clients/         (from business)
-03_Projects/
-04_Experiments/     (from researcher)
-05_Papers/          (from researcher)
+01_Work/
+02_Projects/
+03_Notes/
+04_Ideas/
 06_Operations/
-07_Ideas/
-09_Reference/
 ```
+Safe for any use case, user can expand later via the Vault Operator.
 
 ---
 
 ## Creating a new preset
 
-If you're adapting this template for a use case not covered above, add your preset here and submit a PR. Each preset needs:
+Adding a preset for a new use case? Include:
 
 1. Name + one-line description
 2. Target user
-3. Signals to detect in intake
-4. Folder scheme (use the 00-09 numbering pattern)
-5. Rationale for any custom folders
+3. Signals in intake that trigger it
+4. Folder scheme (5-8 folders, 00-09 numbering)
+5. Rationale for any distinctive folders
 
-Keep numbers 04 consistently available for a distinctive new folder — that's the customization slot.
+Submit via PR — see `CONTRIBUTING.md`.

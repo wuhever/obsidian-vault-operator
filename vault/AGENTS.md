@@ -10,32 +10,24 @@
 
 **Purpose:** {{VAULT_PURPOSE}}
 
-**Shared via:** Optionally Obsidian Sync (see `docs/OBSIDIAN-SYNC.md` in the repo root).
+**Vault type:** {{VAULT_TYPE}}
 
 ---
 
 ## Folder Structure
 
-```
-vault/
-├── 00_Inbox/           Quick capture, daily notes, unsorted items
-├── 01_Identity/        About, brand, bio, goals
-├── 02_Work/            Engagements, clients, collaborators
-│   └── _Entity-Template/  Template for new entity folders
-├── 03_Projects/        Active projects and deliverables
-├── 05_Strategy/        Strategy, growth plans, planning docs
-├── 06_Operations/      SOPs, processes, task board
-├── 07_Ideas/           Brainstorms, experiments
-├── 08_Publishing/      Content, social, newsletter, papers
-├── 09_Reference/       READ-ONLY archive
-├── {{OWNER_SLUG}}-space/  {{OWNER_NAME}}'s personal workspace
-├── _Templates/         Obsidian note templates
-├── AGENTS.md           This file
-├── CLAUDE.md           Claude-specific instructions
-└── README.md           Human guide
-```
+This vault's folder scheme was created during setup based on the owner's needs. The current scheme is:
 
-*(Your folder scheme may differ if you chose a preset during `/setup` — researcher, student, or personal schemes rename some of these folders.)*
+{{SCHEME_TABLE}}
+
+**Universal folders** (present in every vault of this template):
+
+| Folder | Purpose |
+|---|---|
+| `00_Inbox/` | Catch-all for anything without a clear home. Triaged periodically by the Vault Operator. Contains `Daily/` subfolder for daily notes. |
+| `09_Reference/` | READ-ONLY archive. Agents may read but not modify. |
+| `_Templates/` | Note templates. Use them when creating standard note types. |
+| `{{OWNER_SLUG}}-space/` | {{OWNER_NAME}}'s personal workspace. |
 
 ---
 
@@ -46,14 +38,9 @@ vault/
 | You need to... | Create it in... |
 |---|---|
 | Capture something quickly | `00_Inbox/` |
-| Write about identity, brand, or bio | `01_Identity/` |
-| Add information about a client / collaborator / entity | `02_Work/[EntityName]/` |
-| Document a project | `03_Projects/` |
-| Save research | Inside the scope it relates to — `02_Work/{Entity}/Research/`, `03_Projects/{Project}/Research/`, or `05_Strategy/research/` for cross-cutting research |
-| Write strategy or plans | `05_Strategy/` |
-| Create an SOP or process doc | `06_Operations/` |
-| Brainstorm or capture an idea | `07_Ideas/` |
-| Draft publishing content | `08_Publishing/` |
+| A note that fits a topical folder | That folder (see scheme table above) |
+| Research related to an entity/project | Inside that entity/project folder (scoped colocation) |
+| A new idea or experiment | Your ideas folder (see scheme) |
 | Store reference material | **DO NOT** — only the owner adds to `09_Reference/` |
 
 ### Where NOT to create files
@@ -70,7 +57,7 @@ vault/
 ### Files
 - Use **kebab-case**: `my-research-note.md`, `client-onboarding-sop.md`
 - No spaces in filenames
-- Use descriptive names, not numbered prefixes (exception: daily notes use date format)
+- Descriptive names, not numbered prefixes (exception: daily notes use date format)
 
 ### Frontmatter
 Every new `.md` file MUST include YAML frontmatter with at minimum:
@@ -82,7 +69,7 @@ created: YYYY-MM-DD
 ---
 ```
 
-Additional properties depend on the note type — see `_Templates/` for complete frontmatter schemas.
+See `_Templates/` for complete frontmatter schemas per note type.
 
 ---
 
@@ -91,20 +78,20 @@ Additional properties depend on the note type — see `_Templates/` for complete
 These behaviors are expected of every agent in every session:
 
 ### Before starting any task
-1. **Read existing content in the relevant folder first.** Build on what's already there — don't start from scratch.
-2. **Read any identity/brand reference** in `01_Identity/` before writing public-facing or branded content (if the owner has set one up).
+1. **Read existing content in the relevant folder first.** Build on what's already there.
+2. **Read any identity/brand reference** in the identity folder before writing public-facing content (if one exists).
 
 ### When creating files
-3. **Always use a template** when creating a standard note type. Read `_Templates/` to find the right one, copy its structure, fill in the placeholders.
+3. **Always use a template** when creating a standard note type. Read `_Templates/`, copy the structure, fill in placeholders.
 4. **Always add frontmatter** — every `.md` file gets `type`, `status`, and `created` at minimum.
-5. **Use wikilinks** to connect related notes across folders: `[[related-note-name]]`.
+5. **Use wikilinks** to connect related notes: `[[related-note-name]]`.
 
 ### When unsure where something goes
-6. **Dump it in `00_Inbox/`** — that's what it's for. Don't ask where to put it. Inbox it, add frontmatter, move on. The Vault Operator triages later.
+6. **Dump it in `00_Inbox/`** — that's what it's for. Don't ask. Inbox it, add frontmatter, move on. The Vault Operator triages later.
 
 ### During the session
 7. **Don't create files you don't need.** Prefer adding to existing notes over creating new ones.
-8. **Don't reorganize the vault.** Structural changes happen through the `vault-operator/` workspace.
+8. **Don't reorganize the vault.** Structural changes happen through `vault-operator/`.
 
 ---
 
@@ -113,7 +100,7 @@ These behaviors are expected of every agent in every session:
 `09_Reference/` is a **read-only archive**. AI agents:
 - **MAY** read any file in this folder freely
 - **MUST NOT** create, modify, or delete any file in this folder
-- If you need to annotate reference material, create a new note in the appropriate working folder and link back with `[[wikilinks]]`
+- To build on reference material, create a new note in the appropriate working folder and link back with `[[wikilinks]]`
 
 ---
 
@@ -128,15 +115,7 @@ These behaviors are expected of every agent in every session:
 
 ## Templates
 
-Use templates from `_Templates/` when creating standard note types:
-- `daily-note.md`
-- `meeting-note.md`
-- `client-folder-README.md` (rename to entity-folder for your preset)
-- `research-note.md`
-- `idea-note.md`
-- `sop.md`
-- `project-brief.md`
-- `playbook.md`
+8 templates ship in `_Templates/`: `daily-note`, `meeting-note`, `research-note`, `idea-note`, `sop`, `project-brief`, `client-folder-README`, `playbook`.
 
 Copy the template content and fill in placeholders. Do not modify the template files themselves.
 
@@ -148,13 +127,13 @@ Copy the template content and fill in placeholders. Do not modify the template f
 
 This vault uses Obsidian with these features enabled:
 
-- **Wikilinks** — `[[note-name]]` for internal links (preferred over markdown links)
-- **Properties** — YAML frontmatter for metadata on every note
-- **Bases** — `.base` files for database views (Task-Board, entity trackers)
+- **Wikilinks** — `[[note-name]]` for internal links
+- **Properties** — YAML frontmatter for metadata
+- **Bases** — `.base` files for database views
 - **Canvas** — `.canvas` files for visual diagrams
 
 > [!warning] `.base` and `.canvas` files do NOT merge — last-write-wins.
-> If two devices edit the same `.base` or `.canvas` file at the same time, the older edit is silently lost. **Only one agent/device should edit these file types at a time.** `.md` files are safe for concurrent editing.
+> Only one agent/device should edit these file types at a time. `.md` files are safe for concurrent editing.
 
 - **Daily notes** — saved in `00_Inbox/Daily/`
 - **Tags** — use tags in frontmatter, not inline hashtags
@@ -174,4 +153,4 @@ This vault uses Obsidian with these features enabled:
 
 ## Vault Operator
 
-Structural changes to this vault (adding folders, reorganizing, updating templates, modifying this file) are managed through the **`vault-operator/`** workspace at `{{VAULT_OPERATOR_PATH}}`. If you need to suggest structural changes, note them but do not implement them — the Vault Operator handles that.
+Structural changes (adding folders, reorganizing, updating templates, modifying this file) are managed through the **`vault-operator/`** workspace at `{{VAULT_OPERATOR_PATH}}`. If you need to suggest structural changes, note them but do not implement — the Vault Operator handles that.

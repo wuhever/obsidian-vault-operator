@@ -2,7 +2,7 @@
 
 > **You are executing the setup wizard for a fresh clone of the `obsidian-vault-operator` template.** Read this entire file before acting. Follow the 5 phases in order. Do not skip phases.
 
-Your job: turn a generic template into a personalized Obsidian vault + operator workspace for this specific user, optionally routing their existing files from `/_intake/` into a scheme designed around their content.
+Your job: turn a minimal template scaffold into a personalized Obsidian vault + operator workspace designed around THIS specific user's needs. The scaffold ships with only universal essentials (Inbox, Reference, Templates, Owner-Space). You CREATE the topical folders based on the user's vault type and optional intake content.
 
 ---
 
@@ -10,186 +10,252 @@ Your job: turn a generic template into a personalized Obsidian vault + operator 
 
 Read these files **before asking any questions**:
 
-1. This file (`setup/SETUP-PROMPT.md`) — you're reading it now
-2. `setup/placeholders.md` — canonical list of `{{TOKENS}}` you'll replace
-3. `setup/scheme-presets.md` — reference schemes (business, researcher, student, personal) to match against intake content
-4. `setup/intake-routing-rules.md` — heuristics for routing files by extension and content
-5. `setup/setup-log-template.md` — format for the final setup log you'll write
+1. This file (`setup/SETUP-PROMPT.md`)
+2. `setup/placeholders.md` — canonical list of `{{TOKENS}}`
+3. `setup/scheme-presets.md` — preset schemes (student, researcher, business, hobbyist-builder, personal) you'll create folders from
+4. `setup/intake-routing-rules.md` — heuristics for routing files
+5. `setup/setup-log-template.md` — format for the final logs
 
-Then scan `/_intake/` to see what the user dropped in:
-- List files and folders (use `Glob` or `ls`)
-- Read a few small `.md` files to infer content themes
-- Note file extensions and counts (how many PDFs, how many markdown files, any nested folders)
-
-If `/_intake/` contains only its own `README.md` and nothing else, mark it as **empty** and skip Phase 3.
+Then scan the repo:
+- List `/_intake/` contents (use `Glob` or `ls`)
+- If intake has files beyond its own README, read a few small `.md` files to infer content themes
+- Note: if `/_intake/` contains only its own `README.md`, mark it as **empty** and skip intake analysis
 
 ---
 
-## Phase 2 — Interview (ask the user 5 questions)
+## Phase 2 — Interview
 
-Ask these **one by one** (or batched if your IDE supports it). Do not proceed until you have all 5 answers.
+Ask the user these questions. Don't proceed until you have all answers.
 
-### Questions
+### Q1 — Rename the vault directory?
 
-1. **Owner name** — "What name should appear as the owner of this vault?" (e.g., "Sarah", "Dad", "Ali")
-   - Capture as `{{OWNER_NAME}}`
-   - Derive `{{OWNER_SLUG}}` = lowercased, hyphenated (e.g., "Sarah" → "sarah")
+> "The vault folder is currently called `vault/`. Would you like to rename it to something else (like `my-vault/`, `phd-vault/`, `notes/`)? Just press Enter to keep `vault/`."
 
-2. **Vault name** — "What's the name/slug for this vault?" (e.g., "sarah-phd-vault", "dad-ai-vault")
-   - Capture as `{{VAULT_NAME}}`
-   - Should be kebab-case, no spaces
+- Capture as `{{VAULT_DIR}}` (default: `vault`)
+- Must be filesystem-safe (no spaces, no special chars, kebab-case recommended)
 
-3. **Vault purpose** — "What is this vault for, in one sentence?" (e.g., "PhD research on marine biology", "AI engineering notes and project work")
-   - Capture as `{{VAULT_PURPOSE}}`
-   - Derive `{{ORG_OR_TOPIC}}` = a short version suitable for "Relevance to ___" (e.g., "your research", "your work", "this project")
+### Q2 — Owner name
 
-4. **Vault path on disk** — "Where will this repo live on your computer?" (full path, e.g., `C:\Users\sarah\Documents\sarah-phd-vault` or `/home/sarah/sarah-phd-vault`)
-   - Capture as `{{VAULT_PATH}}`
-   - Derive `{{VAULT_OPERATOR_PATH}}` = same path + `/vault-operator` (the operator lives inside the repo, not a sibling)
-   - Actually, `{{VAULT_PATH}}` = repo path + `/vault`, `{{VAULT_OPERATOR_PATH}}` = repo path + `/vault-operator`
+> "What name should appear as the owner of this vault?"
 
-5. **Keep demo content?** — "Should I keep the example/demo files (fictional AcmeCorp client, sample project, sample idea) so you can see the system in action? [y/N]"
-   - If no: delete `_EXAMPLE-*` files/folders during Phase 4
-   - If yes: keep them — user can delete later
+- Capture as `{{OWNER_NAME}}` (e.g., "Sarah", "Dad", "Ali")
+- Derive `{{OWNER_SLUG}}` = lowercased, hyphenated (e.g., "Sarah Smith" → "sarah-smith")
 
-Store all answers. Confirm back to the user before moving on.
+### Q3 — Vault name / slug
+
+> "What's the name/slug for this vault? (e.g., sarah-phd-vault, dad-ai-vault)"
+
+- Capture as `{{VAULT_NAME}}` (kebab-case, no spaces)
+
+### Q4 — Vault purpose
+
+> "What is this vault for, in one sentence? (e.g., 'PhD research on marine biology', 'Learning web development', 'Running my consulting business')"
+
+- Capture as `{{VAULT_PURPOSE}}`
+- Derive `{{ORG_OR_TOPIC}}` = short phrase for "Relevance to ___" context (e.g., "your research", "your projects", "your work")
+
+### Q5 — Vault type
+
+> "What type of vault is this? Pick the closest match:
+>   1) student (courses, lectures, assignments, study notes)
+>   2) researcher (papers, experiments, thesis, grants)
+>   3) business (clients, proposals, SOPs, operations)
+>   4) hobbyist-builder (projects, tools, learning, experiments)
+>   5) personal (journal, reading, ideas, life admin)
+>   6) custom (I'll describe it and you design it)"
+
+- Capture as `{{VAULT_TYPE}}` (one of: `student`, `researcher`, `business`, `hobbyist-builder`, `personal`, `custom`)
+- If **custom**: ask follow-up — "Describe what kind of content this vault will hold. Give me a few categories and I'll design a scheme."
+
+If `/_intake/` has content: still ask this, but note intake signals for cross-checking. You can tell the user "Your intake looks like a researcher vault — confirm?" and let them override.
+
+### Q6 — Vault path on disk
+
+> "Where will this repo live on your computer? (full absolute path)"
+
+- Capture as repo root path
+- Derive `{{VAULT_PATH}}` = repo_root + "/" + `{{VAULT_DIR}}`
+- Derive `{{VAULT_OPERATOR_PATH}}` = repo_root + "/vault-operator"
+
+### Q7 — Install demo content?
+
+> "Should I install demo content so you can see the system in action? It's a fictional AcmeCorp entity + sample project + sample idea (3 files total). You can delete them later. [y/N]"
+
+- If yes: during Phase 4, copy files from `examples/demo-content/` into appropriate numbered folders the wizard creates
+
+Store all 7 answers. Confirm back to the user before proceeding.
 
 ---
 
-## Phase 3 — Intake Analysis (skip if `/_intake/` is empty)
+## Phase 3 — Scheme Design
 
-Only runs if `/_intake/` contains user files beyond its README.
+### Step 3a — Pick the base scheme
 
-### Step 3a — Analyze content
+From `setup/scheme-presets.md`, select the preset matching `{{VAULT_TYPE}}`:
+- `student` → student preset
+- `researcher` → researcher preset
+- `business` → business preset
+- `hobbyist-builder` → hobbyist-builder preset
+- `personal` → personal preset
+- `custom` → design a scheme from the user's description
 
-Identify themes by looking at:
-- File extensions (`.pdf`, `.md`, `.docx`, `.png`, etc.)
-- Filename patterns (e.g., "paper-", "lecture-", "meeting-", "proposal-")
-- Existing folder structure in intake (e.g., `courses/`, `research/`, `clients/`)
-- Sample content from readable `.md` files (read first 20 lines of 3-5 of them)
+### Step 3b — Refine with intake (if intake has files)
 
-### Step 3b — Match to a preset
+If `/_intake/` has content:
+1. Analyze file extensions, filename patterns, folder structure, sample content
+2. Adjust the preset scheme if intake reveals specific needs:
+   - 40 PDFs with year-stamped names → ensure `05_Papers/` or similar exists
+   - 6 course folders → ensure `04_Courses/` or similar exists
+   - Distinctive content types → propose a new numbered folder
+3. Present a file-routing plan showing which file goes to which folder
 
-Compare against the 4 presets in `setup/scheme-presets.md`:
-- **business** — signals: client folders, proposals, SOPs, retainer docs
-- **researcher** — signals: PDF papers, experiments, thesis/chapters, references with years (e.g., "smith-2024.pdf")
-- **student** — signals: course folders, lecture notes, assignments, textbook PDFs
-- **personal** — signals: journal entries, reading lists, ideas, personal projects
+### Step 3c — Present the plan
 
-If one preset matches strongly (>60% of content fits), use it as the base.
-If multiple match, blend them (e.g., "researcher + student" for a PhD student who also TAs).
-If none match, use the **default generic scheme** (`01_Identity`, `02_Work`, `03_Projects`, `05_Strategy`, `06_Operations`, `07_Ideas`, `08_Publishing`, `09_Reference`).
-
-### Step 3c — Propose the scheme + routing
-
-Show the user a scheme proposal like:
+Show the user:
 
 ```
-Based on your intake (40 PDFs, 6 course folders, 1 CV, 12 random notes),
-I'm proposing the "researcher" scheme:
+Your scheme ({{VAULT_TYPE}} preset):
 
-Folder scheme:
-  00_Inbox/          (ongoing drops)
-  01_Identity/       (your CV, bio, goals)
-  02_Collaborators/  (advisor, committee, lab mates)
-  03_Projects/       (thesis chapters, paper drafts)
-  04_Courses/        (6 courses detected — new folder)
-  05_Papers/         (40 PDFs detected — renamed from Strategy)
-  06_Operations/     (your SOPs, workflows)
-  07_Ideas/          (brainstorms)
-  09_Reference/      (read-only archive)
+  00_Inbox/          (universal)
+  01_Identity/       (your bio, goals)
+  02_Courses/        (6 courses detected)
+  03_Projects/       (assignments, term papers)
+  04_Study-Notes/    (flashcards, summaries)
+  05_Resources/      (textbooks, cheat sheets)
+  06_Operations/     (study routines, SOPs)
+  07_Ideas/          (thoughts, side projects)
+  09_Reference/      (universal — read-only)
 
-File routing (42 files):
-  _intake/cv.md                       → vault/01_Identity/About/cv.md
-  _intake/courses/bio-501/            → vault/04_Courses/bio-501/
-  _intake/papers/smith-2024.pdf       → vault/05_Papers/smith-2024.pdf
-  _intake/notes/meeting-advisor.md    → vault/02_Collaborators/meeting-advisor.md
-  ... (show 8-12 example rows, then "... and N more")
+File routing (if intake has files):
+  _intake/cv.md                       → 01_Identity/About/cv.md
+  _intake/courses/bio-501/            → 02_Courses/bio-501/
+  _intake/papers/smith-2024.pdf       → 05_Resources/smith-2024.pdf
+  ... (show 8-12 example rows if many)
 
 Keep / Edit / Reject? [K/E/R]
 ```
 
-### Step 3d — Handle the response
+### Step 3d — Handle response
 
-- **Keep:** proceed to Phase 4 with this plan
-- **Edit:** ask "what would you change?" Revise plan, re-show, ask again
-- **Reject:** fall back to the default scheme, still route files using `intake-routing-rules.md` heuristics
+- **Keep:** proceed to Phase 4
+- **Edit:** ask "what would you change?", revise, re-show, ask again
+- **Reject:** fall back to a minimal generic scheme (just `01_Work/`, `02_Projects/`, `03_Notes/`, `04_Ideas/`) and still route files
 
 ---
 
 ## Phase 4 — Execute
 
-Run these steps in order. Log every action — you'll write the full log in Phase 5, but keep notes as you go.
+Run these steps in order. Keep notes of every action for Phase 5 logging.
 
-### 4a — Rename folders per approved scheme (if non-default)
+### 4a — Rename the vault directory (if user renamed it)
 
-Use the scheme from Phase 3. If the default scheme was kept, skip this step.
+If `{{VAULT_DIR}}` is not `vault`:
+```bash
+mv vault {{VAULT_DIR}}
+```
 
-Example renames:
-- `vault/02_Work/` → `vault/02_Collaborators/`
-- `vault/05_Strategy/` → `vault/05_Papers/`
-- Create new numbered folders if scheme introduces any (e.g., `04_Courses/`)
-- Delete unused folders if scheme drops any (only if they're empty)
+### 4b — Create scheme folders
 
-### 4b — Replace placeholders
+For each folder in the approved scheme, create it inside `{{VAULT_DIR}}/`:
+```bash
+mkdir -p "{{VAULT_DIR}}/01_Identity"
+mkdir -p "{{VAULT_DIR}}/01_Identity/About"
+mkdir -p "{{VAULT_DIR}}/02_Courses"
+# ... etc
+```
 
-Find-and-replace every `{{TOKEN}}` across `vault/`, `vault-operator/`, `setup/`, and repo root files. See `setup/placeholders.md` for the canonical list.
+If the scheme includes an entity template pattern (business, researcher), also create:
+```bash
+mkdir -p "{{VAULT_DIR}}/02_Work/_Entity-Template/Research"
+mkdir -p "{{VAULT_DIR}}/02_Work/_Entity-Template/Documents"
+mkdir -p "{{VAULT_DIR}}/02_Work/_Entity-Template/Workflow"
+```
 
-Files known to contain placeholders:
-- `vault/AGENTS.md`
-- `vault/CLAUDE.md`
-- `vault/README.md`
-- `vault/Owner-Space/_README.md`
-- `vault/_Templates/research-note.md`
+Create an `_Entity-Template/README.md` inside from the template in the repo (or write a minimal one).
+
+### 4c — Replace placeholders
+
+Find-and-replace every `{{TOKEN}}` across these files:
+- `{{VAULT_DIR}}/AGENTS.md`
+- `{{VAULT_DIR}}/CLAUDE.md`
+- `{{VAULT_DIR}}/README.md`
+- `{{VAULT_DIR}}/Owner-Space/_README.md`
+- `{{VAULT_DIR}}/_Templates/research-note.md`
 - `vault-operator/AGENTS.md`
 - `vault-operator/CLAUDE.md`
 - `vault-operator/operator-prompt.md`
 
-Do a final grep after replacement: `grep -r "{{" vault/ vault-operator/` should return zero matches (except this file, which is fine).
+Placeholders to replace: see `setup/placeholders.md`.
 
-### 4c — Rename Owner-Space
+### 4d — Generate and insert {{SCHEME_TABLE}}
 
-Rename `vault/Owner-Space/` → `vault/{{OWNER_SLUG}}-space/` (e.g., `vault/sarah-space/`).
+Build a markdown table of the created scheme:
 
-Update any references to `Owner-Space/` in docs to use the new name.
+```markdown
+| Folder | Purpose |
+|---|---|
+| `01_Identity/` | Your bio, goals, positioning |
+| `02_Courses/` | One folder per course |
+| `03_Projects/` | Assignments, term papers, capstones |
+| `04_Study-Notes/` | Concept notes, flashcards, summaries |
+| `05_Resources/` | Textbooks, cheat sheets |
+| `06_Operations/` | Study routines, exam prep SOPs |
+| `07_Ideas/` | Career ideas, side projects |
+```
 
-### 4d — Delete demo content (if user said no)
+Insert this table wherever `{{SCHEME_TABLE}}` appears:
+- `{{VAULT_DIR}}/AGENTS.md`
+- `{{VAULT_DIR}}/README.md`
+- `vault-operator/operator-prompt.md`
 
-Remove:
-- `vault/02_Work/_EXAMPLE-AcmeCorp/` (or wherever it landed after folder renames)
-- `vault/03_Projects/_EXAMPLE-website-redo.md`
-- `vault/07_Ideas/_EXAMPLE-idea.md`
+### 4e — Rename Owner-Space
 
-### 4e — Route intake files (if `/_intake/` has content)
+```bash
+mv "{{VAULT_DIR}}/Owner-Space" "{{VAULT_DIR}}/{{OWNER_SLUG}}-space"
+```
+
+### 4f — Install demo content (if user said yes)
+
+Copy from `examples/demo-content/` into appropriate folders:
+- AcmeCorp entity → the entity-holding folder (e.g., `02_Work/` or `02_Courses/` or wherever fits)
+- Sample project → the projects folder
+- Sample idea → the ideas folder
+
+If the scheme doesn't naturally accommodate demo content (e.g., pure research vault has no "entity" concept), skip incompatible files and note it.
+
+If user said **no** to demo content: do nothing; examples/ stays in the repo (user can delete later).
+
+### 4g — Route intake files (if intake has content)
 
 For each file in `/_intake/`:
 1. Determine destination per the approved routing plan
 2. Create destination folder if it doesn't exist
-3. If the file is `.md` and lacks frontmatter, add minimal frontmatter:
+3. If `.md` file lacks frontmatter, add minimal:
    ```yaml
    ---
    type: note
    status: active
-   created: YYYY-MM-DD  # today's date
+   created: YYYY-MM-DD
    ---
    ```
-4. Move the file (don't copy — the backup is the whole `/_intake/` folder)
+4. Move the file (don't copy)
 
-### 4f — Archive intake
+### 4h — Archive intake
 
-Rename `/_intake/` → `/_intake-backup/`. Do NOT delete.
+```bash
+mv _intake _intake-backup
+```
 
-Verify `/_intake-backup/` is in `.gitignore` (it already is).
+Verify `_intake-backup/` is in `.gitignore` (it is).
 
-### 4g — Self-checks
+### 4i — Self-checks
 
 Before Phase 5, verify:
-- [ ] No `{{` tokens remain in `vault/`, `vault-operator/`, or `setup/` (outside this file)
-- [ ] `vault/Owner-Space/` no longer exists
-- [ ] `vault/{{OWNER_SLUG}}-space/` (with actual slug) does exist
-- [ ] If intake was processed, all its files have moved to `vault/` and `/_intake-backup/` is their original location
-- [ ] All folders listed in the scheme actually exist
-- [ ] Demo files deleted per user's choice
+- [ ] No `{{` tokens remain in `{{VAULT_DIR}}/`, `vault-operator/` (grep check)
+- [ ] `Owner-Space/` renamed
+- [ ] All scheme folders exist
+- [ ] `{{SCHEME_TABLE}}` was replaced everywhere
+- [ ] If intake processed, files moved + `/_intake-backup/` exists
 
 ---
 
@@ -197,44 +263,44 @@ Before Phase 5, verify:
 
 ### 5a — Get UTC timestamp
 
-Get the current UTC timestamp in format `YYYY-MM-DD-HHMMSS`:
 ```bash
 date -u +"%Y-%m-%d-%H%M%S"
 ```
 
 ### 5b — Write setup change log
 
-Create `vault-operator/changes/{TIMESTAMP}-initial-setup.md` using the format in `setup/setup-log-template.md`. Include:
-- All placeholder replacements (list tokens + values)
-- Folder renames (from → to)
-- Demo content deletion (yes/no)
-- Every intake file moved (source path → dest path)
+Create `vault-operator/changes/{TIMESTAMP}-initial-setup.md` per `setup/setup-log-template.md`. Include:
+- Placeholder replacements
+- Folders created (full scheme list)
+- Vault directory rename (if done)
+- Owner-Space rename
+- Demo content installed (which files, where)
+- Intake files moved (source → dest)
 - Frontmatter added to which files
 
 ### 5c — Write setup session log
 
 Create `vault-operator/context/{TIMESTAMP}-initial-setup.md` with:
-- User's 5 interview answers
-- Scheme chosen (preset name or "default")
-- Scheme approval decision (kept / edited / rejected)
-- Any issues encountered
-- Open items for the user (e.g., "install Obsidian Sync", "review `/_intake-backup/` before deleting")
+- All 7 interview answers
+- Vault type chosen
+- Scheme decision (preset / custom / rejected-fallback)
+- Issues encountered
+- Open items for the user
 
-### 5d — Print the handoff message
-
-Tell the user:
+### 5d — Print handoff
 
 ```
 ✓ Setup complete.
 
-Your vault: {{VAULT_PATH}}/vault/
-Your operator: {{VAULT_PATH}}/vault-operator/
+Vault: {{VAULT_PATH}}
+Operator: {{VAULT_OPERATOR_PATH}}
 
 Next steps:
-  1. Open vault/ in Obsidian (File → Open folder as vault)
-  2. Read vault/README.md for day-to-day usage
-  3. When you're confident nothing was lost, delete /_intake-backup/
-  4. Set up Obsidian Sync → see docs/OBSIDIAN-SYNC.md
+  1. Open {{VAULT_DIR}}/ in Obsidian (File → Open folder as vault)
+  2. Read {{VAULT_DIR}}/README.md for day-to-day usage
+  3. Delete /_intake-backup/ when you're confident nothing was lost
+  4. Set up Obsidian Sync (optional) → docs/OBSIDIAN-SYNC.md
+  5. Install Obsidian skills: npx skills add https://github.com/kepano/obsidian-skills.git --yes
 
 Session log: vault-operator/context/{TIMESTAMP}-initial-setup.md
 Change log:  vault-operator/changes/{TIMESTAMP}-initial-setup.md
@@ -244,9 +310,9 @@ Change log:  vault-operator/changes/{TIMESTAMP}-initial-setup.md
 
 ## Safety rules (never violate)
 
-1. **Never delete `/_intake/`** — always rename to `/_intake-backup/`. The user deletes it when ready.
-2. **Never skip the interview.** The 5 questions are mandatory. No placeholders can be filled without them.
-3. **Never auto-approve the scheme in Phase 3.** Always show the plan and wait for K/E/R.
-4. **Never modify files outside this repo.** Stay within the cloned directory.
-5. **If anything is ambiguous, ask.** Don't guess. Re-running setup is expensive.
-6. **Write logs before printing the handoff.** If logs aren't written, the operator pattern is broken from day one.
+1. **Never delete `/_intake/`** — always rename to `/_intake-backup/`.
+2. **Never skip the interview.** All 7 questions are mandatory.
+3. **Never auto-approve the scheme.** Always show plan, wait for K/E/R.
+4. **Never modify files outside this repo.**
+5. **If anything is ambiguous, ask.** Don't guess.
+6. **Write logs before printing handoff.**

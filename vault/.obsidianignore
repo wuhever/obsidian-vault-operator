@@ -1,0 +1,31 @@
+# ============================================================
+# .obsidianignore
+# ============================================================
+# Tells Obsidian to completely ignore certain files and folders.
+# Ignored items will NOT appear in the file explorer, will NOT be indexed
+# for search/backlinks/graph, and will NOT sync via Obsidian Sync.
+# ============================================================
+
+# Agent infrastructure (machine-specific, each user installs locally)
+# Install skills with: npx skills add https://github.com/kepano/obsidian-skills.git --yes
+.agents/
+.claude/
+skills/
+skills-lock.json
+
+# Build artifacts (safety net)
+node_modules/
+.next/
+.vercel/
+.git/
+*.env
+*.env.*
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Binary caches
+*.exe
+*.dll

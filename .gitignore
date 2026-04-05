@@ -1,0 +1,29 @@
+# Intake backup — created by /setup after routing files, safe to delete when ready
+_intake-backup/
+
+# Obsidian workspace state (machine-specific)
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/cache
+
+# Agent infrastructure (machine-specific, installed per user)
+.agents/
+.claude/
+skills/
+skills-lock.json
+
+# Environment files (never commit secrets)
+*.env
+*.env.*
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+.idea/
+
+# Build artifacts
+node_modules/

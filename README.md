@@ -10,7 +10,7 @@ Built for solo users — students, researchers, engineers, builders — who want
 
 Two directories that work together:
 
-- **`vault/`** — the Obsidian vault. Numbered folders (`00_Inbox`, `01_Identity`, `02_Work`, ...), templates, frontmatter conventions, and agent rules. Open this in Obsidian.
+- **`vault/`** — the Obsidian vault. Ships with only universal essentials (Inbox, Reference, Templates, Owner-Space + agent rule files). Topical folders (`01_` through `08_`) get created during `/setup` based on your vault type — student, researcher, business, hobbyist-builder, personal, or a custom scheme. Open this in Obsidian.
 - **`vault-operator/`** — an admin workspace that sits **outside** the vault. It holds your operator prompt, session logs, change logs, and a reusable audit skill. Open this in Claude Code / Cursor / Copilot CLI / Antigravity when you want an agent to audit, triage, or reorganize your vault.
 
 The operator never guesses — it reads the prompt, checks the logs, proposes changes, waits for your approval, executes, and logs what it did. Every session is traceable.
@@ -99,10 +99,12 @@ See [docs/SETUP.md](docs/SETUP.md) for a detailed walkthrough of the wizard, [do
 
 ## Who this is for
 
-- **Students** with scattered course notes, research PDFs, and paper drafts
+- **Students** with scattered course notes, lectures, readings, and assignments
 - **Researchers / PhD candidates** with a growing library of papers, experiments, and chapters
-- **Engineers & builders** with project notes, SOPs, and ideas spread across folders
-- **Solo operators** who want a knowledge base that an AI agent can reason about and keep clean
+- **Hobbyist builders** (web designers, app developers, AI tinkerers) with project notes, tools, and experiments
+- **Solo business operators** (consultants, freelancers, agency owners) with clients, SOPs, and strategy
+- **Personal knowledge keepers** with journals, reading lists, ideas, and life admin
+- Anyone who wants a knowledge base an AI agent can reason about and keep clean
 
 Not yet supported (on the roadmap): two-person teams, families with shared+personal spaces, AI-only vaults. For now: solo user, v1.
 

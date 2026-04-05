@@ -6,12 +6,14 @@ Thanks for your interest in improving `obsidian-vault-operator`. This is a small
 
 ### 1. New scheme presets
 
-The setup wizard uses presets in `setup/scheme-presets.md` to propose folder structures based on intake content (business, researcher, student, personal). If you've used this template for a different kind of vault — legal, teaching, writing, music production, startup ops — submit a preset.
+The setup wizard uses presets in `setup/scheme-presets.md` to create folder structures based on the user's vault type (student, researcher, business, hobbyist-builder, personal, custom). If you've used this template for a different kind of vault — legal, teaching, writing, music production, startup ops, fitness tracking, homeschooling — submit a preset.
 
 A preset is just a markdown block with:
-- A name and one-line description
-- A list of folders with purposes
+- Name + one-line description
+- Target user
 - Signals in `/_intake/` that would trigger it
+- Folder scheme (5-8 folders using the 00-09 numbering pattern)
+- Rationale for any distinctive folders
 
 See existing presets in `setup/scheme-presets.md` as examples.
 
@@ -33,7 +35,7 @@ If `/setup` breaks, mis-routes files, or leaves placeholders unreplaced, open an
 ## What's out of scope
 
 - Adding new frontmatter types (the 14 canonical types cover nearly everything — if you think you need a new one, use `type: note` with a `subtype` property)
-- Renaming the default folder scheme (the numbered pattern is intentional)
+- Changing the 00-09 numbering pattern or the universal folders (Inbox, Reference, Templates, Owner-Space are intentionally fixed — topical folders inside that numbering are fully customizable via presets)
 - Shell/Node rewrites of the wizard (the markdown-prompt approach is the whole point — it works in any agent IDE)
 
 ## Pull request checklist

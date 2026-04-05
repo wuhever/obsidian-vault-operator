@@ -126,9 +126,10 @@ The agent will:
 ## Step 8 — Verify and open Obsidian
 
 1. Check `vault-operator/changes/*.md` — the newest file lists everything the agent did
-2. Open Obsidian → Open folder as vault → pick your `vault/` directory
-3. Read `vault/README.md`
-4. Start using it
+2. **Install Obsidian and configure it** — see [OBSIDIAN-SETUP.md](OBSIDIAN-SETUP.md) for the ~10-minute one-time app setup (core plugins, Daily Notes, Templates)
+3. Open Obsidian → Open folder as vault → pick your `vault/` directory
+4. Read `vault/README.md`
+5. Start using it
 
 When you're confident nothing was lost, delete `/_intake-backup/`.
 
@@ -148,5 +149,6 @@ When you're confident nothing was lost, delete `/_intake-backup/`.
 
 ## Next steps
 
-- Set up Obsidian Sync → [OBSIDIAN-SYNC.md](OBSIDIAN-SYNC.md)
+- Install & configure Obsidian → [OBSIDIAN-SETUP.md](OBSIDIAN-SETUP.md)
+- Set up Obsidian Sync across devices → [OBSIDIAN-SYNC.md](OBSIDIAN-SYNC.md)
 - Customize folders, add SOPs, tweak operator prompt → [CUSTOMIZATION.md](CUSTOMIZATION.md)

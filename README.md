@@ -49,7 +49,9 @@ The agent will:
 
 ### 3. Open in Obsidian
 
-Open the `vault/` folder as an Obsidian vault. Read `vault/README.md`. You're ready to go.
+Open the `vault/` folder as an Obsidian vault. Read `vault/README.md`.
+
+**First time using Obsidian?** See [docs/OBSIDIAN-SETUP.md](docs/OBSIDIAN-SETUP.md) for installing Obsidian, enabling the core plugins, and configuring Daily Notes + Templates to work with this vault. ~10 minutes, one-time setup.
 
 ---
 
